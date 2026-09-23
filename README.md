@@ -13,6 +13,16 @@ The directory contains every remaining, nonempty facet and every original summar
 CSV with at least one matching row. Opening `CUSTOMERS_summary.csv` returns that
 original, unfiltered CSV artifact.
 
+## Why a filesystem?
+
+The goal is to make the ordinary **File | Open** dialog the ultimate searchable data
+access UI. Every desktop application, shell, script, and file browser already knows
+how to enumerate folders and open files; duckdb-fs gives that universal interface a
+faceted-query vocabulary. A user can drill from `status=FAIL` to a table, column, and
+expectation without knowing SQL, DuckDB, Great Expectations, or a bespoke data-catalog
+application. The resulting path is also a portable, addressable serialized query that
+can be pasted into a terminal, passed to another program, or reopened later.
+
 `summary/` and `details/` are deliberately separate collections. Summary rows are
 one expectation result each; detail rows are exploded failure evidence and can have
 different natural-key columns from suite to suite.

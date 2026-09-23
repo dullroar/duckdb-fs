@@ -10,6 +10,14 @@ the backing output tree need not resemble the navigation hierarchy.
 GX extractor CSVs -> DuckDB query catalog -> FUSE -> File | Open
 ```
 
+The intended user interface is not a custom search page: it is the File | Open dialog
+already embedded in nearly every desktop application. Filesystems are a mature common
+protocol for enumerate, open, read, seek, and stat. Projecting faceted queries through
+that protocol lets someone progressively select the dimensions that matter—failure,
+table, column, expectation—until the relevant evidence appears, without learning SQL
+or adopting a catalog-specific client. The path is a portable serialized query rather
+than transient checkbox state in one application's UI.
+
 DuckDB is the v1 execution layer, not a stored database. It reads a fixed set of CSVs
 selected at mount and evaluates the facet queries. There is no persistent `.duckdb`
 catalog, Parquet conversion, LMDB index, or automatic source refresh in this release.
