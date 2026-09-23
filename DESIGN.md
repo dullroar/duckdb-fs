@@ -45,7 +45,7 @@ shows that direct CSV querying is inadequate.
 
 ## Lineage
 
-The implementation differs from `lmdb-fs`, but retains its core proposition:
+The implementation differs from [`lmdb-fs`](https://github.com/dullroar/lmdb-fs), but retains its core proposition:
 metadata-rich, immutable facts can be discovered through ordinary filesystem tools by
 treating directory paths as accumulated predicates. DuckDB replaces the inverted-index
 backend for the GX corpus because it already supplies CSV scanning, relational filters,
