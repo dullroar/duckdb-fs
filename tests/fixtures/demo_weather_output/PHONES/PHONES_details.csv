@@ -1,0 +1,5 @@
+source,environment_name,table,expectation_type,column,PHONE_ID,bad_value,bad_value_a,bad_value_b,exception_message,observed_value,unexpected_count,exploded_count,has_sample_value,run_date
+PHONES,demo_weather,PHONES,expect_column_values_to_be_unique,PHONE_ID,4,4,,,,,2,2,True,2026-09-12T14:45:12.824049+00:00
+PHONES,demo_weather,PHONES,expect_column_values_to_be_unique,PHONE_ID,4,4,,,,,2,2,True,2026-09-12T14:45:12.824049+00:00
+PHONES,demo_weather,PHONES,expect_column_values_to_be_in_set,PHONE_TYPE,10,FAX,,,,,1,1,True,2026-09-12T14:45:12.824049+00:00
+PHONES,demo_weather,PHONES,expect_column_values_to_match_regex,PHONE_NUMBER,5,555.12.34,,,,,1,1,True,2026-09-12T14:45:12.824049+00:00

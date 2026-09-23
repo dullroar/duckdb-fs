@@ -1,0 +1,6 @@
+source,environment_name,table,expectation_type,column,ADDRESS_ID,bad_value,bad_value_a,bad_value_b,exception_message,observed_value,unexpected_count,exploded_count,has_sample_value,run_date
+ADDRESSES,demo_weather,ADDRESSES,expect_column_values_to_not_be_null,STREET,13,,,,,,1,1,False,2026-09-12T14:45:10.730457+00:00
+ADDRESSES,demo_weather,ADDRESSES,expect_column_value_lengths_to_equal,ZIP_CODE,3,123,,,,,1,1,True,2026-09-12T14:45:10.730457+00:00
+ADDRESSES,demo_weather,ADDRESSES,expect_column_values_to_match_regex,ZIP_CODE,3,123,,,,,1,1,True,2026-09-12T14:45:10.730457+00:00
+ADDRESSES,demo_weather,ADDRESSES,expect_column_values_to_be_in_set,COUNTRY_CD,10,USA,,,,,1,1,True,2026-09-12T14:45:10.730457+00:00
+ADDRESSES,demo_weather,ADDRESSES,expect_column_pair_values_to_be_equal,STATE_CD / BILLING_STATE_CD,7,,MA,TX,,,1,1,True,2026-09-12T14:45:10.730457+00:00

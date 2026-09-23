@@ -1,0 +1,11 @@
+source,environment_name,table,expectation_type,column,READING_ID,bad_value,bad_value_a,bad_value_b,exception_message,observed_value,unexpected_count,exploded_count,has_sample_value,run_date,READING_TS,STATION_ID
+READINGS,demo_weather,READINGS,expect_column_values_to_be_dateutil_parseable,READING_TS,101,not-a-timestamp,,,,,1,1,True,2026-09-12T14:45:13.441997+00:00,,
+READINGS,demo_weather,READINGS,expect_column_values_to_be_between,HUMIDITY_PCT,13,142.0,,,,,1,1,True,2026-09-12T14:45:13.441997+00:00,,
+READINGS,demo_weather,READINGS,expect_column_values_to_be_between,TEMPERATURE_F,28,-999.0,,,,,1,1,True,2026-09-12T14:45:13.441997+00:00,,
+READINGS,demo_weather,READINGS,expect_column_stdev_to_be_between,TEMPERATURE_F,,,,,,86.70116356911488,,,False,2026-09-12T14:45:13.441997+00:00,,
+READINGS,demo_weather,READINGS,expect_column_values_to_not_be_null,PRESSURE_HPA,41,,,,,,1,1,False,2026-09-12T14:45:13.441997+00:00,,
+READINGS,demo_weather,READINGS,expect_column_values_to_be_between,WIND_SPEED_MPH,56,-5.0,,,,,1,1,True,2026-09-12T14:45:13.441997+00:00,,
+READINGS,demo_weather,READINGS,expect_column_values_to_be_between,RAINFALL_IN,86,-0.1,,,,,1,1,True,2026-09-12T14:45:13.441997+00:00,,
+READINGS,demo_weather,READINGS,expect_column_values_to_be_between,BATTERY_PCT,71,137,,,,,1,1,True,2026-09-12T14:45:13.441997+00:00,,
+READINGS,demo_weather,READINGS,expect_compound_columns_to_be_unique,"STATION_ID, READING_TS",,,,,,,2,2,True,2026-09-12T14:45:13.441997+00:00,2026-08-06T09:00:00,1
+READINGS,demo_weather,READINGS,expect_compound_columns_to_be_unique,"STATION_ID, READING_TS",,,,,,,2,2,True,2026-09-12T14:45:13.441997+00:00,2026-08-06T09:00:00,1

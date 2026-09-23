@@ -1,0 +1,7 @@
+source,expectation_type,column,table,severity,test_category,success,result_type,rule_kind,element_count,missing_count,missing_percent,unexpected_count,unexpected_percent,unexpected_percent_total,observed_value,expectation_kwargs,run_date,environment_name
+EMAILS,expect_column_values_to_be_unique,EMAIL_ID,EMAILS,critical,DQ,True,success,single_column,25,0,0.0,0,0.0,0.0,,"{""column"": ""EMAIL_ID""}",2026-09-12T14:45:12.315530+00:00,demo_weather
+EMAILS,expect_column_values_to_not_be_null,CUSTOMER_ID,EMAILS,critical,DQ,True,success,single_column,25,,,0,0.0,,,"{""column"": ""CUSTOMER_ID""}",2026-09-12T14:45:12.315530+00:00,demo_weather
+EMAILS,expect_column_values_to_not_be_null,EMAIL_ADDRESS,EMAILS,critical,DQ,False,failure,single_column,25,,,1,4.0,,,"{""column"": ""EMAIL_ADDRESS""}",2026-09-12T14:45:12.315530+00:00,demo_weather
+EMAILS,expect_column_values_to_match_regex,EMAIL_ADDRESS,EMAILS,warning,DQ,False,failure,single_column,25,1,4.0,1,4.166666666666666,4.0,,"{""column"": ""EMAIL_ADDRESS"", ""regex"": ""^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$""}",2026-09-12T14:45:12.315530+00:00,demo_weather
+EMAILS,expect_column_values_to_be_unique,EMAIL_ADDRESS,EMAILS,warning,DQ,False,failure,single_column,25,1,4.0,2,8.333333333333332,8.0,,"{""column"": ""EMAIL_ADDRESS""}",2026-09-12T14:45:12.315530+00:00,demo_weather
+EMAILS,expect_table_row_count_to_be_between,EMAIL_ID,EMAILS,info,DQ,True,success,aggregate,,,,,,,25,"{""catch_exceptions"": true, ""max_value"": 100, ""min_value"": 10}",2026-09-12T14:45:12.315530+00:00,demo_weather

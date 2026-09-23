@@ -1,0 +1,5 @@
+source,environment_name,table,expectation_type,column,EMAIL_ID,bad_value,bad_value_a,bad_value_b,exception_message,observed_value,unexpected_count,exploded_count,has_sample_value,run_date
+EMAILS,demo_weather,EMAILS,expect_column_values_to_not_be_null,EMAIL_ADDRESS,16,,,,,,1,1,False,2026-09-12T14:45:12.315530+00:00
+EMAILS,demo_weather,EMAILS,expect_column_values_to_match_regex,EMAIL_ADDRESS,6,not-an-email,,,,,1,1,True,2026-09-12T14:45:12.315530+00:00
+EMAILS,demo_weather,EMAILS,expect_column_values_to_be_unique,EMAIL_ADDRESS,3,amara.sorensen3@example.com,,,,,2,2,True,2026-09-12T14:45:12.315530+00:00
+EMAILS,demo_weather,EMAILS,expect_column_values_to_be_unique,EMAIL_ADDRESS,21,amara.sorensen3@example.com,,,,,2,2,True,2026-09-12T14:45:12.315530+00:00

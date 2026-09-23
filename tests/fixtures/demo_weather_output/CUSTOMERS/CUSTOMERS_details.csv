@@ -1,0 +1,8 @@
+source,environment_name,table,expectation_type,column,CUSTOMER_ID,bad_value,bad_value_a,bad_value_b,exception_message,observed_value,unexpected_count,exploded_count,has_sample_value,run_date
+CUSTOMERS,demo_weather,CUSTOMERS,expect_column_values_to_be_unique,CUSTOMER_ID,10,10,,,,,2,2,True,2026-09-12T14:45:11.672182+00:00
+CUSTOMERS,demo_weather,CUSTOMERS,expect_column_values_to_be_unique,CUSTOMER_ID,10,10,,,,,2,2,True,2026-09-12T14:45:11.672182+00:00
+CUSTOMERS,demo_weather,CUSTOMERS,expect_column_values_to_not_be_null,LAST_NAME,5,,,,,,1,1,False,2026-09-12T14:45:11.672182+00:00
+CUSTOMERS,demo_weather,CUSTOMERS,expect_column_values_to_be_in_set,STATE_CD,8,ZZ,,,,,1,1,True,2026-09-12T14:45:11.672182+00:00
+CUSTOMERS,demo_weather,CUSTOMERS,expect_column_values_to_be_in_set,ACCOUNT_STATUS,17,CANCELLED,,,,,1,1,True,2026-09-12T14:45:11.672182+00:00
+CUSTOMERS,demo_weather,CUSTOMERS,expect_column_values_to_be_between,LOYALTY_POINTS,11,-150,,,,,1,1,True,2026-09-12T14:45:11.672182+00:00
+CUSTOMERS,demo_weather,CUSTOMERS,expect_column_values_to_be_dateutil_parseable,SIGNUP_DATE,14,sometime last spring,,,,,1,1,True,2026-09-12T14:45:11.672182+00:00
