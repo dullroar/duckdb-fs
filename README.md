@@ -77,4 +77,4 @@ environment, install `fuse3`, `libfuse3-dev`, and `pkg-config`; if `/dev/fuse` i
 absent, an administrator must load the FUSE module and create the device before a
 normal user can mount.
 
-See [DESIGN.md](DESIGN.md) for the constraints and non-goals.
+See [docs/design/](docs/design/README.md) for the constraints and non-goals.
