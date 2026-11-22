@@ -1,6 +1,6 @@
 ---
 id: 02-build-and-test
-status: pending
+status: done
 depends_on: [01-adopt-context]
 touches:
   - Dockerfile
@@ -13,7 +13,7 @@ touches:
 lane: none
 requirements: [R2]
 gate: bash scripts/test_docker.sh && python3 scripts/check_context.py && git diff --check
-evidence: ""
+evidence: "2026-11-22 UTC. Docker build, context checks, 23 core tests, and 1 FUSE mount test passed. See Validation evidence."
 ---
 
 # 02-build-and-test
@@ -27,3 +27,15 @@ Touches `Dockerfile`, `.dockerignore`, `README.md`, `scripts/test_docker.sh`, ge
 ## Repository gate
 
 Use `uv.lock` and the existing FUSE 3 build dependencies. Run `uv run --locked pytest -m 'not integration'` and run `DUCKDB_FS_RUN_FUSE_TESTS=1 uv run --locked pytest -m integration` in a FUSE-capable Docker invocation. Verify actual reads through the mounted filesystem using the committed GX fixture. Gate on a passing test with no mount-test skip. Keep the core test run device-free. Give the mount run its own disposable mountpoint and remove it on exit. Document `/dev/fuse` and the minimum container permissions that the tested host needs. Preserve the host CLI and output schema.
+
+## Validation evidence
+
+- The protected gate passed on 2026-11-22 UTC. The image built from the linked
+  worktree with `uv sync --locked`. The in-container and host context checks
+  passed, and `git diff --check` reported no errors.
+- The device-free run passed 23 core tests and deselected the mount test.
+  The FUSE run passed the real mount test, deselected the 23 core tests, and
+  reported zero skips. The test verified the bytes of the mounted GX CSV.
+- The tested Linux Docker host provided `/dev/fuse` and used the default
+  seccomp profile. The mount test used the device and `SYS_ADMIN` and
+  ran as the image's normal user. The host did not use AppArmor.
