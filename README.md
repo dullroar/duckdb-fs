@@ -77,4 +77,44 @@ environment, install `fuse3`, `libfuse3-dev`, and `pkg-config`; if `/dev/fuse` i
 absent, an administrator must load the FUSE module and create the device before a
 normal user can mount.
 
+## Docker build and test
+
+Use a Linux Docker Engine with access to the package registries for the build.
+From the repository root, build the image from the current worktree:
+
+```bash
+git ls-files --cached -z |
+  tar --create --file=- --no-recursion --owner=0 --group=0 --numeric-owner \
+    --null --files-from=- |
+  docker build --tag "duckdb-fs:build-$$" -
+```
+
+The snapshot uses the worktree contents of the paths in the Git index. Stage
+new files or deletions before building. The build also works in a linked Git
+worktree.
+
+```bash
+bash scripts/test_docker.sh
+```
+
+The script builds its own image and runs the context checks and core tests as
+a normal user, with the network disabled and no FUSE device. A second offline
+container mounts the committed GX fixture at a temporary path and verifies
+that the mounted CSV matches the fixture. A skipped mount test fails the gate.
+
+The mount container requires a readable and writable `/dev/fuse` on the Docker
+host and the `SYS_ADMIN` capability for `fusermount3`. On a Docker Engine that
+uses AppArmor, the script also sets `apparmor=unconfined` for the mount container
+so it can mount the filesystem. Both containers and the test image tag are
+removed after the run.
+
+## Run the Ralph plan
+
+With `ralph-looper` installed, run from the repository root:
+
+```bash
+ralph-looper --repo "$PWD" --plan ralphify --status
+ralph-looper --repo "$PWD" --plan ralphify --agent codex --jobs 1
+```
+
 See [docs/design/](docs/design/README.md) for the constraints and non-goals.
