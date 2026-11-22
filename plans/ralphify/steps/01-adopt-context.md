@@ -1,6 +1,6 @@
 ---
 id: 01-adopt-context
-status: pending
+status: done
 depends_on: []
 touches:
   - AGENTS.md
@@ -28,7 +28,7 @@ touches:
 lane: none
 requirements: [R1]
 gate: python3 scripts/build_indexes.py --check && python3 scripts/check_context.py && git diff --check
-evidence: ""
+evidence: "2026-11-22 UTC. python3 scripts/build_indexes.py --check && python3 scripts/check_context.py && git diff --check exited 0. See Validation evidence."
 ---
 
 # 01-adopt-context
@@ -44,3 +44,15 @@ Touches the agent contracts, the relevant index and checker files, current plan 
 Use `main` as the workflow base branch. Copy the pinned inputs from `plans/ralphify/template-inputs/`. Remove the final `.txt` suffix on copy.
 
 Fix the standalone README link to the GX repo in this step.
+
+## Validation evidence
+
+- The gate passed. The context command reported success for the index, plan,
+  link and secret checks.
+- A standalone source snapshot passed the context checks and
+  `python3 scripts/check_links.py --all .`. A copy of the new plan template
+  passed after index regeneration.
+- Isolated edits caused exit code 1 for a broken link, stale memory and design
+  indexes, an unknown requirement ID, an invalid step status, and a synthetic
+  private-key marker. The former index and secret commands also detected their
+  respective failures.

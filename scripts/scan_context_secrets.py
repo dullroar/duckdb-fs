@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """Scan context Markdown for credentials, connection strings, personal paths and emails.
 
+Run me when: an existing workflow uses the former command name for scan_secrets.py.
+
 Scans AGENTS.md, CLAUDE.md, docs/, memory/, references/, plans/. A scanner supplements review;
 it does not justify putting sensitive material in the repository. Add `<!-- scan:ignore -->`
 to a line that is a deliberate, reviewed placeholder. Usage: scan_context_secrets.py [ROOT]
