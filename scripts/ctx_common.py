@@ -1,4 +1,7 @@
-"""Shared helpers for the context-governance scripts (standard library only)."""
+"""Shared helpers for the context scripts (standard library only).
+
+Run me when: never directly. Other scripts in this folder import these helpers.
+"""
 from __future__ import annotations
 
 import re
@@ -11,7 +14,9 @@ SKIP_DIRS = {".git", ".venv", "node_modules", "build", "dist", "__pycache__", ".
 
 
 def repo_root(start: Path | None = None) -> Path:
-    here = (start or Path.cwd()).resolve()
+    if start is not None:
+        return start.resolve()
+    here = Path.cwd().resolve()
     for candidate in [here, *here.parents]:
         if (candidate / ".git").exists():
             return candidate

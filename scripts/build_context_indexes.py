@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """Generate the routing index inside each folder README that carries index markers.
 
+Run me when: an existing workflow uses the former command name for build_indexes.py.
+
 Every routed Markdown file declares `gist: "Read when: ..."` in its front matter.
 A README containing the BEGIN/END markers lists the Markdown files beneath its folder,
 except README.md files, and except anything under a child folder whose own README has
@@ -16,7 +18,7 @@ import re
 import sys
 from pathlib import Path
 
-from ctx_common import BEGIN, END, SKIP_DIRS, repo_root, split_frontmatter
+from ctx_common import BEGIN, END, SKIP_DIRS, split_frontmatter
 
 
 def has_markers(readme: Path) -> bool:
@@ -59,11 +61,7 @@ def build(readme: Path, errors: list[str]) -> str:
     return "\n".join(entries) if entries else "<!-- No routed files yet. -->"
 
 
-def main(argv: list[str]) -> int:
-    check = "--check" in argv
-    args = [a for a in argv if not a.startswith("--")]
-    root = repo_root(Path(args[0]) if args else None)
-    errors: list[str] = []
+def update_readme_indexes(root: Path, check: bool, errors: list[str]) -> list[str]:
     stale: list[str] = []
     for readme in sorted(root.rglob("README.md")):
         if SKIP_DIRS & set(readme.relative_to(root).parts) or not has_markers(readme):
@@ -79,12 +77,10 @@ def main(argv: list[str]) -> int:
             stale.append(str(readme.relative_to(root)))
             if not check:
                 readme.write_text(new, encoding="utf-8")
-    for err in errors:
-        print(f"ERROR {err}")
-    if check and stale:
-        print("STALE generated index (run build_context_indexes.py): " + ", ".join(stale))
-    return 1 if errors or (check and stale) else 0
+    return stale
 
 
 if __name__ == "__main__":
+    from build_indexes import main
+
     sys.exit(main(sys.argv[1:]))

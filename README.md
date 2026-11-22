@@ -1,8 +1,8 @@
 # duckdb-fs
 
 `duckdb-fs` is a read-only FUSE filesystem over the CSV output of
-[metadata-driven-gx](../metadata_driven_gx). Directories are faceted queries, not
-physical containment. For example:
+[metadata-driven-gx](https://github.com/dullroar/metadata_driven_gx). A directory
+represents a faceted query. For example:
 
 ```text
 /summary/status=FAIL/table=CUSTOMERS/column=LAST_NAME/
