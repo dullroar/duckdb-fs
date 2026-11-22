@@ -102,7 +102,7 @@ a normal user, with the network disabled and no FUSE device. A second offline
 container mounts the committed GX fixture at a temporary path and verifies
 that the mounted CSV matches the fixture. A skipped mount test fails the gate.
 
-The mount container requires a readable and writable `/dev/fuse` on the Docker
+The mount test runs as the container's root user so it can unmount reliably. The core test runs as the image's normal user. The mount container requires a readable and writable `/dev/fuse` on the Docker
 host and the `SYS_ADMIN` capability for `fusermount3`. On a Docker Engine that
 uses AppArmor, the script also sets `apparmor=unconfined` for the mount container
 so it can mount the filesystem. Both containers and the test image tag are
