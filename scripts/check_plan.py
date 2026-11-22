@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 """Validate plan step files, check parallel safety, and print derived status.
 
-Layout: plans/<plan>/spec.md and plans/<plan>/steps/<id>.md (plans/TEMPLATE and plans/archive
-are skipped). Each step has front matter: id, status (pending|in_progress|done|blocked),
+Run me when: I created or changed a plan or step, or need to start a plan loop.
+
+Layout: plans/<plan>/{goal,plan,spec}.md and plans/<plan>/steps/<id>.md. The template
+and archive are skipped. Each step has front matter: id, status (pending|in_progress|done|blocked),
 depends_on, touches, lane, gate, requirements, and (once done) evidence.
 Requirements are headings in spec.md such as `### R1. Title`.
 
@@ -40,7 +42,10 @@ def check_plan(plan: Path, root: Path) -> list[str]:
     errors: list[str] = []
     name = plan.relative_to(root).as_posix()
     steps: dict[str, dict] = {}
-    for path in sorted((plan / "steps").glob("*.md")):
+    step_paths = sorted((plan / "steps").glob("*.md"))
+    if not step_paths:
+        errors.append(f"{name}: no step files")
+    for path in step_paths:
         meta, _ = split_frontmatter(path.read_text(encoding="utf-8"))
         missing = [k for k in REQUIRED if k not in meta]
         if missing:
@@ -48,7 +53,7 @@ def check_plan(plan: Path, root: Path) -> list[str]:
             continue
         if meta["id"] != path.stem:
             errors.append(f"{name}/steps/{path.name}: id '{meta['id']}' must equal file name")
-        if meta["status"] not in STATUSES:
+        if not isinstance(meta["status"], str) or meta["status"] not in STATUSES:
             errors.append(f"{name}/steps/{path.name}: bad status '{meta['status']}'")
         if meta["status"] == "done" and not meta.get("evidence"):
             errors.append(f"{name}/steps/{path.name}: done step needs evidence")
@@ -56,10 +61,13 @@ def check_plan(plan: Path, root: Path) -> list[str]:
             errors.append(f"{name}/steps/{path.name}: empty gate")
         steps[path.stem] = meta
 
+    for filename in ("goal.md", "plan.md", "spec.md"):
+        if not (plan / filename).is_file():
+            errors.append(f"{name}: missing {filename}")
     spec = plan / "spec.md"
-    spec_reqs = set(re.findall(r"^#{2,4}\s+(R\d+)\b", spec.read_text(encoding="utf-8"), re.M)) if spec.exists() else set()
-    if not spec.exists():
-        errors.append(f"{name}: missing spec.md")
+    spec_reqs = set()
+    if spec.is_file():
+        spec_reqs = set(re.findall(r"^#{2,4}\s+(R\d+)\b", spec.read_text(encoding="utf-8"), re.M))
 
     for sid, meta in steps.items():
         for dep in as_list(meta["depends_on"]):
@@ -127,7 +135,7 @@ def main(argv: list[str]) -> int:
     plans = root / "plans"
     errors: list[str] = []
     if plans.is_dir():
-        for plan in sorted(p for p in plans.iterdir() if p.is_dir() and p.name not in {"TEMPLATE", "archive"}):
+        for plan in sorted(p for p in plans.iterdir() if p.is_dir() and p.name not in {"for-each-plan", "archive"}):
             errors.extend(check_plan(plan, root))
     for err in errors:
         print(f"ERROR {err}")
