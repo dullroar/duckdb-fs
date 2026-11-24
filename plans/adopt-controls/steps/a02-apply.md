@@ -1,6 +1,6 @@
 ---
 id: a02-apply
-status: blocked
+status: pending
 depends_on: [a01-audit]
 touches:
   - scripts/check_context.py
@@ -15,7 +15,7 @@ touches:
   - docs/README.md
   - plans/adopt-controls/steps/a02-apply.md
 lane: none
-gate: python3 scripts/check_context.py && python3 scripts/build_indexes.py --check && python3 scripts/secret_guard.py --tracked && grep -q '0323de273a158608f7280867e12994141bccd1e6' scripts/controls-requirements.txt && test -s controls.toml && grep -q '^  check:' .github/workflows/context.yml && grep -q '^  docker:' .github/workflows/context.yml && grep -q 'secret_guard.py --tracked' .github/workflows/context.yml && ! grep -q 'continue-on-error' .github/workflows/context.yml && ! grep 'uses:' .github/workflows/context.yml | grep -vqE '@[0-9a-f]{40}' && grep -q 'cheapest executor' AGENTS.md && grep -q 'controls-adoption.md' docs/README.md && bash scripts/test_docker.sh && git diff --check
+gate: python3 scripts/check_context.py && python3 scripts/build_indexes.py --check && python3 scripts/secret_guard.py --tracked && grep -q '3a2e9f3d95136958c54f73c831e84b971fc9a054' scripts/controls-requirements.txt && test -s controls.toml && grep -q '^  check:' .github/workflows/context.yml && grep -q '^  docker:' .github/workflows/context.yml && grep -q 'secret_guard.py --tracked' .github/workflows/context.yml && ! grep -q 'continue-on-error' .github/workflows/context.yml && ! grep 'uses:' .github/workflows/context.yml | grep -vqE '@[0-9a-f]{40}' && grep -q 'cheapest executor' AGENTS.md && grep -q 'controls-adoption.md' docs/README.md && bash scripts/test_docker.sh && git diff --check
 requirements: [R2]
 claimed_by: ""
 claimed_at: ""
@@ -28,7 +28,7 @@ This is the first real use of the adoption tools in this repository. Record each
 
 ## Change
 
-- Run `python3 -m deterministic_controls adopt plan --root . --commit 0323de273a158608f7280867e12994141bccd1e6` (a dry run). Read the plan. Then run `adopt apply` with the same `--commit`. Run `apply` before any other edit, because it needs a clean tree. Keep its commit on this step branch. Use `adopt --help` for the other options. Do not install the library (see "Facts" in `plan.md`).
+- Run `python3 -m deterministic_controls adopt plan --root . --commit 3a2e9f3d95136958c54f73c831e84b971fc9a054` (a dry run). Read the plan. Then run `adopt apply` with the same `--commit`. Run `apply` before any other edit, because it needs a clean tree. Keep its commit on this step branch. Use `adopt --help` for the other options. Do not install the library (see "Facts" in `plan.md`).
 - Result: `scripts/check_context.py` is the shim. `scripts/controls-requirements.txt` has the pinned install line (add a `Run me when:` line if `apply` left it out). `controls.toml` exists.
 - The shim keeps the old output lines (`ok  <script>` or `FAIL <script>`) and the exit codes `0` and `1`. It gives exit `2` if the library cannot run.
 - If `apply` writes a file outside `touches`, revert that file and record it under "Where the tools did not fit".
@@ -56,6 +56,10 @@ This is the first real use of the adoption tools in this repository. Record each
 
 Set `status: done`. Fill `evidence` with the gate command, the result and the date.
 If you cannot finish, write "Resume notes" below. Keep the status `in_progress`.
+
+## Operator change (2026-11-23)
+
+The pin moved to `v0.1.2` (`3a2e9f3d95136958c54f73c831e84b971fc9a054`). `v0.1.2` fixes the blocker above: `context.index-freshness` now skips `README.md` in `memory/` and `scripts/`, so do not edit those files. Re-run `python3 -m deterministic_controls adopt apply --root . --commit 3a2e9f3d95136958c54f73c831e84b971fc9a054`. It changes only the pin in `scripts/controls-requirements.txt`. Keep the rest of the applied work. Then run the gate, including `bash scripts/test_docker.sh`.
 
 ## Resume notes
 

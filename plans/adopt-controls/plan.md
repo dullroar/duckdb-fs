@@ -14,7 +14,7 @@ Order: secret guard first (a00), then a read-only audit (a01), then the adoption
 
 ## Facts
 
-- Library: `deterministic-controls` `v0.1.1`. Install line: `python3 -m pip install "deterministic-controls @ git+https://github.com/dullroar/deterministic-controls@0323de273a158608f7280867e12994141bccd1e6"`. The commit is `0323de273a158608f7280867e12994141bccd1e6`. Pass it as `--commit` to `adopt plan`.
+- Library: `deterministic-controls` `v0.1.1`. Install line: `python3 -m pip install "deterministic-controls @ git+https://github.com/dullroar/deterministic-controls@3a2e9f3d95136958c54f73c831e84b971fc9a054"`. The commit is `3a2e9f3d95136958c54f73c831e84b971fc9a054`. Pass it as `--commit` to `adopt plan`.
 - Commands: `python3 -m deterministic_controls {list,check,explain,version,adopt}`. `adopt` has `audit`, `plan`, `apply` and `receipt`. `check --root DIR --profile quick|ci|full [--format text|json] [--report FILE]`. Exit codes: `0` pass, `1` defects, `2` bad configuration, invocation or no result, `3` internal error. Use `--help` for details.
 - **No installs in agent steps.** An agent session has no network and no install right. Do not create a virtual environment and do not run `pip install`. The operator puts a checkout of the pinned release on `PYTHONPATH`, so `python3 -m deterministic_controls ...` works in a step. If it does not work, write that under "Resume notes" and stop.
 - The shim (`scripts/check_context.py`) runs the library from a cached virtual environment for the pinned commit, under `$XDG_CACHE_HOME/deterministic-controls/<commit>/` (default `~/.cache/...`). The first run for a commit needs the network. If the library cannot run, the shim exits `2`. It never passes without a result and never falls back to the old scripts.

@@ -6,7 +6,7 @@ touches:
   - docs/controls-adoption.md
   - plans/adopt-controls/steps/a03-probes.md
 lane: none
-gate: python3 scripts/check_context.py && python3 scripts/build_indexes.py --check && python3 scripts/secret_guard.py --tracked && grep -q '^## Probes' docs/controls-adoption.md && grep -q '^## Rollback' docs/controls-adoption.md && grep -q '^## Receipt' docs/controls-adoption.md && for id in markdown.local-links context.index-freshness plans.schema security.secrets repo.forbidden-artifacts; do grep -q "$id" docs/controls-adoption.md || exit 1; done && grep -q '"control_pin": "0323de273a158608f7280867e12994141bccd1e6"' docs/controls-adoption.md && git diff --check
+gate: python3 scripts/check_context.py && python3 scripts/build_indexes.py --check && python3 scripts/secret_guard.py --tracked && grep -q '^## Probes' docs/controls-adoption.md && grep -q '^## Rollback' docs/controls-adoption.md && grep -q '^## Receipt' docs/controls-adoption.md && for id in markdown.local-links context.index-freshness plans.schema security.secrets repo.forbidden-artifacts; do grep -q "$id" docs/controls-adoption.md || exit 1; done && grep -q '"control_pin": "3a2e9f3d95136958c54f73c831e84b971fc9a054"' docs/controls-adoption.md && git diff --check
 requirements: [R3]
 claimed_by: ""
 claimed_at: ""
@@ -28,7 +28,7 @@ Work in `docs/controls-adoption.md` only. Do all probes in a temporary copy outs
   - an internal error (an unreadable file, or a forced exception): the check must not pass. Record the exit code (`2` or `3`).
   Each bad probe must fail with the expected rule ID. Then restore the copy and check that it passes (exit `0`). Also run `python3 scripts/check_context.py` (the shim) in the copy for the bad plan step and record that its exit code is `1`.
 - `## Rollback`: test it. There is no earlier pin, so use the pre-adoption scripts. The base commit is the parent of the `adopt apply` commit (find it with `git log`). In a temporary clone, check out that commit and run its `python3 scripts/check_context.py` on the clean tree. Then run the new shim on the clean tree of `HEAD`. Record that both pass. Write the steps to roll back: change the pin, or `git revert` the adoption commits on a new branch (list the files that the adoption added, changed and kept), then run `python3 scripts/check_context.py`. Say that the cache under `$XDG_CACHE_HOME/deterministic-controls/<commit>/` is safe to delete.
-- `## Receipt`: run `python3 -m deterministic_controls adopt receipt --root <clean clone> --commit 0323de273a158608f7280867e12994141bccd1e6` in a clean clone of `HEAD`. Put the JSON in a fenced `json` block. Say that `repository` is the name of the temporary clone. Say that `enforcement_state` is `advisory`.
+- `## Receipt`: run `python3 -m deterministic_controls adopt receipt --root <clean clone> --commit 3a2e9f3d95136958c54f73c831e84b971fc9a054` in a clean clone of `HEAD`. Put the JSON in a fenced `json` block. Say that `repository` is the name of the temporary clone. Say that `enforcement_state` is `advisory`.
 - Record the UTC date of each run. Do not write local paths or user names in the file.
 
 ## Do not change

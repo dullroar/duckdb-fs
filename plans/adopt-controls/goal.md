@@ -20,7 +20,7 @@ Use this prompt for each loop iteration. It has no chat history, so keep it comp
 
 The library is `v0.1.1` at a pinned commit. Install line:
 
-`python3 -m pip install "deterministic-controls @ git+https://github.com/dullroar/deterministic-controls@0323de273a158608f7280867e12994141bccd1e6"`
+`python3 -m pip install "deterministic-controls @ git+https://github.com/dullroar/deterministic-controls@3a2e9f3d95136958c54f73c831e84b971fc9a054"`
 
 ## Done when
 
