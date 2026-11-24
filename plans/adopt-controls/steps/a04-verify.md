@@ -1,6 +1,6 @@
 ---
 id: a04-verify
-status: pending
+status: blocked
 depends_on: [a03-probes]
 touches:
   - plans/adopt-controls/steps/a04-verify.md
