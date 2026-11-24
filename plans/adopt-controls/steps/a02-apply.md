@@ -63,4 +63,11 @@ The pin moved to `v0.1.2` (`3a2e9f3d95136958c54f73c831e84b971fc9a054`). `v0.1.2`
 
 ## Resume notes
 
-(none)
+Blocked on scope. Work done: `adopt apply` (shim, pin, `controls.toml`, `controls` job), Dockerfile cache and packages, `AGENTS.md` rule, `docs/controls-adoption.md`, `docs/README.md` line.
+
+The gate fails at `python3 scripts/check_context.py` (exit 1). The library check `context.index-freshness` reports:
+
+- `memory/README.md` has no `gist` front matter.
+- `scripts/README.md` has no `Run me when:` line in its first 25 lines.
+
+The old `build_indexes.py --check` passes. The library is stricter. Both files are outside `touches`, so this step cannot fix them. A fix needs these two files in `touches` of this step (or a decision to exclude them in `controls.toml`, which weakens the check). Not run: `bash scripts/test_docker.sh` (the core run calls `check_context.py`, which fails).

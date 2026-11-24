@@ -13,6 +13,14 @@ It uses DuckDB to query the progressive set intersection specified by a path.
 - User instructions take precedence. When sources conflict, use this order:
   user instructions, this file, `docs/design/`, the named plan, domain documentation
   and references, `memory/`, implementation and tests, historical notes.
+- Do not weaken the controls. You may run the local checks at any time. CI runs
+  them in all cases. Do not change or disable the controls, the pin
+  (`scripts/controls-requirements.txt`), `controls.toml` or the workflows to make
+  an unrelated task pass. The driver checks the gate and `touches` of each step.
+  A change to the gate or a file outside `touches` fails the step. Send each piece
+  of work to the cheapest executor that can do it, and let the gate decide if the
+  work is done. The full policy is at
+  <https://github.com/dullroar/ralph-looper/blob/main/docs/routing.md>.
 - Before changing this repository's structure, read
   [repo-template](https://github.com/dullroar/repo-template) and
   [ralph-looper](https://github.com/dullroar/ralph-looper). Account for their layout,
