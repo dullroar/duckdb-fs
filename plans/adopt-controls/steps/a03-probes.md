@@ -1,6 +1,6 @@
 ---
 id: a03-probes
-status: blocked
+status: pending
 depends_on: [a02-apply]
 touches:
   - docs/controls-adoption.md
@@ -48,6 +48,10 @@ Work in `docs/controls-adoption.md` only. Do all probes in a temporary copy outs
 
 Set `status: done`. Fill `evidence` with the gate command, the result and the date.
 If you cannot finish, write "Resume notes" below. Keep the status `in_progress`.
+
+## Operator change (2026-11-23)
+
+Agent sessions cannot run `mktemp` or write outside the worktree. Make the throwaway copy inside the worktree, in `.probe/`. The operator excluded `/.probe/` in this clone's `.git/info/exclude`, so it is never tracked and the driver's scope check ignores it. Use `git clone -q . .probe/copy` (or `.probe/copy-<probe>` for each probe), and run each probe and the library in that copy (`--root .probe/copy`). Never change the real tree for a probe. Delete `.probe/` with `rm -rf .probe` before you run the gate: the planted fake secrets must not be on disk when the real checks run. Record the results in `docs/controls-adoption.md` as before.
 
 ## Resume notes
 
