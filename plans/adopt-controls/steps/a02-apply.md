@@ -1,6 +1,6 @@
 ---
 id: a02-apply
-status: pending
+status: done
 depends_on: [a01-audit]
 touches:
   - scripts/check_context.py
@@ -17,9 +17,9 @@ touches:
 lane: none
 gate: python3 scripts/check_context.py && python3 scripts/build_indexes.py --check && python3 scripts/secret_guard.py --tracked && grep -q '3a2e9f3d95136958c54f73c831e84b971fc9a054' scripts/controls-requirements.txt && test -s controls.toml && grep -q '^  check:' .github/workflows/context.yml && grep -q '^  docker:' .github/workflows/context.yml && grep -q 'secret_guard.py --tracked' .github/workflows/context.yml && ! grep -q 'continue-on-error' .github/workflows/context.yml && ! grep 'uses:' .github/workflows/context.yml | grep -vqE '@[0-9a-f]{40}' && grep -q 'cheapest executor' AGENTS.md && grep -q 'controls-adoption.md' docs/README.md && bash scripts/test_docker.sh && git diff --check
 requirements: [R2]
-claimed_by: ""
-claimed_at: ""
-evidence: ""
+claimed_by: claude cli-default
+claimed_at: "2026-11-24T02:17:34Z"
+evidence: gate passed 2026-11-24 (driver-verified)
 ---
 
 # Adopt the pinned library in advisory mode
@@ -63,4 +63,11 @@ The pin moved to `v0.1.2` (`3a2e9f3d95136958c54f73c831e84b971fc9a054`). `v0.1.2`
 
 ## Resume notes
 
-(none)
+Resolved on 2026-11-23: pin moved to v0.1.2, `apply` re-run (reverted its `scripts/install_hooks.sh` change, outside touches), and the Dockerfile now commits the copied files so the secret scan skips `.venv`. Earlier note (obsolete): Blocked on scope. Work done: `adopt apply` (shim, pin, `controls.toml`, `controls` job), Dockerfile cache and packages, `AGENTS.md` rule, `docs/controls-adoption.md`, `docs/README.md` line.
+
+The gate fails at `python3 scripts/check_context.py` (exit 1). The library check `context.index-freshness` reports:
+
+- `memory/README.md` has no `gist` front matter.
+- `scripts/README.md` has no `Run me when:` line in its first 25 lines.
+
+The old `build_indexes.py --check` passes. The library is stricter. Both files are outside `touches`, so this step cannot fix them. A fix needs these two files in `touches` of this step (or a decision to exclude them in `controls.toml`, which weakens the check). Re-checked on 2026-11-23: same result. `check_context.py` still exits 1, and a search finds no `gist` in `memory/README.md` and no `Run me when:` in `scripts/README.md`. Needed decision: add `memory/README.md` and `scripts/README.md` to `touches` of this step. Not run: `bash scripts/test_docker.sh` (the core run calls `check_context.py`, which fails).
