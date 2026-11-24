@@ -41,11 +41,18 @@ The `check` job and the `docker` job stay.
   `venv`. `tests/test_secret_guard.py` needs `git`, and the core run collects it.
 - **Pin file header.** `adopt apply` wrote a `Run me when:` line, so no manual
   change was needed.
-- **Files outside `touches`.** `apply` wrote none.
-- **Stricter index check.** The library `context.index-freshness` check finds two
-  files that the old `build_indexes.py --check` accepts: `memory/README.md` (no
-  `gist` front matter) and `scripts/README.md` (no `Run me when:` line). The old
-  scripts did not scan these files. They must be fixed before the shim passes.
+- **Files outside `touches`.** The re-run of `apply` for the `v0.1.2` pin also
+  rewrote `scripts/install_hooks.sh` (a `secretguard.path` fallback). That file is
+  outside `touches`, so the change was reverted. A later step or the operator can
+  take that change.
+- **Stricter index check.** With `v0.1.1`, `context.index-freshness` failed on
+  `memory/README.md` and `scripts/README.md`. `v0.1.2` skips folder `README.md`
+  files, so the pin moved and no file edit was needed.
+- **No Git metadata in the image.** The test image is built from a tar of tracked
+  files, with no `.git`. Without a repository the library secret scan reads the
+  whole tree, including `.venv` (a generated C file gave a false finding). Fix: the
+  `Dockerfile` makes a local Git commit of the copied files before `uv sync`, so
+  the scan reads only tracked files, as on the host.
 
 ## Secret guard exceptions
 

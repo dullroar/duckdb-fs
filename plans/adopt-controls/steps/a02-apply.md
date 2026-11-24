@@ -1,6 +1,6 @@
 ---
 id: a02-apply
-status: pending
+status: done
 depends_on: [a01-audit]
 touches:
   - scripts/check_context.py
@@ -19,7 +19,7 @@ gate: python3 scripts/check_context.py && python3 scripts/build_indexes.py --che
 requirements: [R2]
 claimed_by: ""
 claimed_at: ""
-evidence: ""
+evidence: "Full gate (check_context.py, build_indexes.py --check, secret_guard.py --tracked, greps, bash scripts/test_docker.sh with core run and FUSE mount run, git diff --check) passed on 2026-11-23 with pin v0.1.2."
 ---
 
 # Adopt the pinned library in advisory mode
@@ -63,7 +63,7 @@ The pin moved to `v0.1.2` (`3a2e9f3d95136958c54f73c831e84b971fc9a054`). `v0.1.2`
 
 ## Resume notes
 
-Blocked on scope. Work done: `adopt apply` (shim, pin, `controls.toml`, `controls` job), Dockerfile cache and packages, `AGENTS.md` rule, `docs/controls-adoption.md`, `docs/README.md` line.
+Resolved on 2026-11-23: pin moved to v0.1.2, `apply` re-run (reverted its `scripts/install_hooks.sh` change, outside touches), and the Dockerfile now commits the copied files so the secret scan skips `.venv`. Earlier note (obsolete): Blocked on scope. Work done: `adopt apply` (shim, pin, `controls.toml`, `controls` job), Dockerfile cache and packages, `AGENTS.md` rule, `docs/controls-adoption.md`, `docs/README.md` line.
 
 The gate fails at `python3 scripts/check_context.py` (exit 1). The library check `context.index-freshness` reports:
 
