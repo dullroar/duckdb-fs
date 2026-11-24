@@ -70,4 +70,4 @@ The gate fails at `python3 scripts/check_context.py` (exit 1). The library check
 - `memory/README.md` has no `gist` front matter.
 - `scripts/README.md` has no `Run me when:` line in its first 25 lines.
 
-The old `build_indexes.py --check` passes. The library is stricter. Both files are outside `touches`, so this step cannot fix them. A fix needs these two files in `touches` of this step (or a decision to exclude them in `controls.toml`, which weakens the check). Not run: `bash scripts/test_docker.sh` (the core run calls `check_context.py`, which fails).
+The old `build_indexes.py --check` passes. The library is stricter. Both files are outside `touches`, so this step cannot fix them. A fix needs these two files in `touches` of this step (or a decision to exclude them in `controls.toml`, which weakens the check). Re-checked on 2026-11-23: same result. `check_context.py` still exits 1, and a search finds no `gist` in `memory/README.md` and no `Run me when:` in `scripts/README.md`. Needed decision: add `memory/README.md` and `scripts/README.md` to `touches` of this step. Not run: `bash scripts/test_docker.sh` (the core run calls `check_context.py`, which fails).
