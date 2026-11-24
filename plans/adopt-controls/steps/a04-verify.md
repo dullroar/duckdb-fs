@@ -1,6 +1,6 @@
 ---
 id: a04-verify
-status: blocked
+status: pending
 depends_on: [a03-probes]
 touches:
   - plans/adopt-controls/steps/a04-verify.md
@@ -43,6 +43,14 @@ Set `status: done`. Fill `evidence` with the gate command, the result and the da
 If you cannot finish, write "Resume notes" below. Keep the status `in_progress`.
 
 After the operator merges this plan, the operator runs `bash scripts/install_hooks.sh` in the canonical clone.
+
+## Operator change (2026-11-23)
+
+Do not clone, use `mktemp`, or run Docker yourself: agent sessions may not. The gate does all of that: it makes the clean clone in a temporary directory, runs every check and `bash scripts/test_docker.sh` (including the real FUSE mount where the repository has one). Your part:
+
+1. In this worktree, run `python3 scripts/secret_guard.py --history`. Write its finding count on its own line in this file as `history-findings=<count>`. A real secret means stop and set `status: blocked`.
+2. Run `python3 scripts/check_context.py` and the repository's host tests that run without Docker. Record the commands and counts below.
+3. Commit. The driver then runs the gate, and its log records the Docker and clean-clone results.
 
 ## Resume notes
 
