@@ -54,4 +54,11 @@ Do not clone, use `mktemp`, or run Docker yourself: agent sessions may not. The 
 
 ## Resume notes
 
-(none)
+history-findings=0
+
+Host checks run in this worktree on 2026-11-23 (UTC). I did not clone or run Docker, as the operator change says. The gate does that.
+
+- `python3 scripts/secret_guard.py --history`: 0 findings, 0 allowed, 0 unscanned.
+- `python3 scripts/check_context.py`: pass (5 checks ok).
+- `python3 scripts/build_indexes.py --check`: pass.
+- `python3 -m unittest discover -s tests -p 'test_secret_guard.py'`: 21 tests, OK.
