@@ -19,6 +19,8 @@ Read the list. Open only the plans whose "Read me when" line matches your task.
 
 <!-- BEGIN GENERATED INDEX -->
 
+* [adopt-controls/plan.md](./adopt-controls/plan.md)
+  Read me when: you adopt the pinned deterministic-controls library and the secret guard in duckdb-fs, in advisory mode, with the Docker core run and the FUSE mount run kept.
 * [for-each-plan/plan.md](./for-each-plan/plan.md)
   Read me when: you want to see the format of a plan. (Template only. Copy this folder to start a plan.)
 * [ralphify/plan.md](./ralphify/plan.md)
