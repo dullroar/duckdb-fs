@@ -1,6 +1,6 @@
 ---
 id: a03-probes
-status: pending
+status: blocked
 depends_on: [a02-apply]
 touches:
   - docs/controls-adoption.md
